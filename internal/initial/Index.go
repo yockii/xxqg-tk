@@ -1,0 +1,3 @@
+package initial
+
+func InitData() {}
