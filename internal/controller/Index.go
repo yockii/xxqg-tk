@@ -55,6 +55,7 @@ func InitRouter() {
 			})
 		}
 		database.DB.Insert(&model.QuestionBank{
+			Id:       util.GenerateDatabaseID(),
 			Question: bank.Question,
 			//Question:    questionWithOptions[0],
 			Options: bank.Options,
