@@ -36,10 +36,10 @@ func InitRouter() {
 		}
 		//questionWithOptions := strings.Split(bank.Question, "|")
 		bank.SortOptions()
-		bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
+		bank.Question = strings.TrimSpace(bank.Question[:strings.Index(bank.Question, "来源：")])
 		qb := &model.QuestionBank{Options: bank.Options}
 		//qb := &model.QuestionBank{Options: strings.Join(questionWithOptions[1:], "|")}
-		if exist, err := database.DB.Where("question like ?", bank.Question+"%").Get(qb); err != nil {
+		if exist, err := database.DB.Where("question like ?", "%"+bank.Question+"%").Get(qb); err != nil {
 			//if exist, err := database.DB.Where("question like ?", questionWithOptions[0]+"%").Get(qb); err != nil {
 			logger.Error(err)
 			return ctx.JSON(&domain.CommonResponse{})
@@ -67,7 +67,7 @@ func InitRouter() {
 		}
 		//questionWithOptions := strings.Split(bank.Question, "|")
 		bank.SortOptions()
-		bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
+		bank.Question = strings.TrimSpace(bank.Question[:strings.Index(bank.Question, "来源：")])
 
 		qb := &model.QuestionBank{Options: bank.Options}
 		//qb := &model.QuestionBank{Question: questionWithOptions[0], Options: strings.Join(questionWithOptions[1:], "|")}
@@ -93,12 +93,11 @@ func InitRouter() {
 			return ctx.SendStatus(fiber.StatusPreconditionFailed)
 		}
 		bank.SortOptions()
-		bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
+		bank.Question = strings.TrimSpace(bank.Question[:strings.Index(bank.Question, "来源：")])
 		dbBank := &model.QuestionBank{
-			Question: bank.Question,
-			Options:  bank.Options,
+			Options: bank.Options,
 		}
-		if exists, err := database.DB.Get(dbBank); err != nil {
+		if exists, err := database.DB.Where("question like ?", "%"+bank.Question+"%").Get(dbBank); err != nil {
 			logger.Error(err)
 			return ctx.SendStatus(fiber.StatusPreconditionFailed)
 		} else if exists {
