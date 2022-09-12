@@ -116,7 +116,7 @@ func InitRouter() {
 		if _, err := database.DB.Insert(&model.QuestionBank{
 			Id:          util.GenerateDatabaseID(),
 			Question:    bank.Question,
-			Options:     bank.Question,
+			Options:     bank.Options,
 			Answer:      bank.Answer,
 			WrongAnswer: bank.WrongAnswer,
 		}); err != nil {
