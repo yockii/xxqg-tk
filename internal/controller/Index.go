@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"regexp"
 	"sort"
 	"strings"
 
@@ -27,6 +28,8 @@ func (qb *Bank) SortOptions() {
 	qb.Options = strings.Join(options, "|")
 }
 
+var blankReg = regexp.MustCompile("[ \\s]+")
+
 func InitRouter() {
 	qa := server.Group("/api/v1/bank")
 	qa.Post("/query", func(ctx *fiber.Ctx) error {
@@ -40,6 +43,9 @@ func InitRouter() {
 			bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
 		}
 		bank.Question = strings.TrimSpace(bank.Question)
+
+		bank.Question = blankReg.ReplaceAllString(bank.Question, "____")
+
 		qb := &model.QuestionBank{Options: bank.Options}
 		//qb := &model.QuestionBank{Options: strings.Join(questionWithOptions[1:], "|")}
 		if exist, err := database.DB.Where("question like ?", "%"+bank.Question+"%").Get(qb); err != nil {
@@ -76,6 +82,7 @@ func InitRouter() {
 			bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
 		}
 		bank.Question = strings.TrimSpace(bank.Question)
+		bank.Question = blankReg.ReplaceAllString(bank.Question, "____")
 
 		qb := &model.QuestionBank{Options: bank.Options}
 		//qb := &model.QuestionBank{Question: questionWithOptions[0], Options: strings.Join(questionWithOptions[1:], "|")}
@@ -106,6 +113,7 @@ func InitRouter() {
 			bank.Question = bank.Question[:strings.Index(bank.Question, "来源：")]
 		}
 		bank.Question = strings.TrimSpace(bank.Question)
+		bank.Question = blankReg.ReplaceAllString(bank.Question, "____")
 
 		dbBank := &model.QuestionBank{
 			Options: bank.Options,
