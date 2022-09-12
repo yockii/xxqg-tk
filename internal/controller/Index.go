@@ -17,8 +17,8 @@ import (
 type Bank struct {
 	Question    string `json:"q,omitempty" form:"q"`
 	Options     string `json:"o,omitempty" form:"o"`
-	Answer      string `json:"a,omitempty" form:"a"`
-	WrongAnswer string `json:"wa,omitempty" form:"wa"`
+	Answer      string `json:"a" form:"a"`
+	WrongAnswer string `json:"wa" form:"wa"`
 }
 
 func (qb *Bank) SortOptions() {
