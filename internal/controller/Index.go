@@ -44,7 +44,7 @@ func InitRouter() {
 			return ctx.JSON(&domain.CommonResponse{})
 		} else if exist {
 			return ctx.JSON(&domain.CommonResponse{
-				Data: &model.QuestionBank{
+				Data: &Bank{
 					Answer:      qb.Answer,
 					WrongAnswer: qb.WrongAnswer,
 				},
@@ -74,7 +74,7 @@ func InitRouter() {
 			return ctx.JSON(&domain.CommonResponse{})
 		} else if exist {
 			return ctx.JSON(&domain.CommonResponse{
-				Data: &model.QuestionBank{
+				Data: &Bank{
 					Answer:      qb.Answer,
 					WrongAnswer: qb.WrongAnswer,
 				},
