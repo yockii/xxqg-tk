@@ -11,6 +11,10 @@ import (
 )
 
 func InitData() {
+	//changeQuestionForm()
+}
+
+func changeQuestionForm() {
 	var blankReg = regexp.MustCompile("[ \\s]+")
 	var all []*model.QuestionBank
 	if err := database.DB.Find(&all); err != nil {
