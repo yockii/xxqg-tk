@@ -127,6 +127,24 @@ func InitRouter() {
 			} else {
 				bank.WrongAnswer = dbBank.WrongAnswer + "|" + bank.WrongAnswer
 			}
+
+			if bank.Answer == "" {
+				if bank.WrongAnswer == "" {
+					return ctx.JSON(&domain.CommonResponse{})
+				} else {
+					if bank.WrongAnswer == dbBank.WrongAnswer {
+						return ctx.JSON(&domain.CommonResponse{})
+					}
+				}
+			} else {
+				// 有正确答案
+				if bank.Answer == dbBank.Answer {
+					return ctx.JSON(&domain.CommonResponse{})
+				}
+				// 不需要错误答案了
+				bank.WrongAnswer = ""
+			}
+
 			database.DB.ID(dbBank.Id).Update(
 				&model.QuestionBank{
 					Answer:      bank.Answer,
